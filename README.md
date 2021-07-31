@@ -7,7 +7,7 @@
 
 ## 编译openJdk11
 
-首先下载openjdk11源码，进入[官网](http://jdk.java.net/java-se-ri/11)，在 ** RI Source Code** 下面下载zip file即可。
+首先下载openjdk11源码，进入[官网](http://jdk.java.net/java-se-ri/11)，在 **RI Source Code** 下面下载zip file即可。
 
 解压后目录里面的src就是仓库的代码。
 
