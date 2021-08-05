@@ -2841,7 +2841,7 @@ void jio_print(const char* s, size_t len) {
 // being reclaimed while we try to operate on it. The exceptions to this
 // rule are when operating on the current thread, or if the monitor of
 // the target java.lang.Thread is locked at the Java level - in both
-// cases the target cannot exit.
+// cases the target cannot exit. [JVM Start thread in Thread.c and run method in vmSymbols.hpp]
 
 static void thread_entry(JavaThread* thread, TRAPS) {
   HandleMark hm(THREAD);
