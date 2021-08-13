@@ -162,15 +162,20 @@ public class FutureTask<V> implements RunnableFuture<V> {
     }
 
     public boolean cancel(boolean mayInterruptIfRunning) {
+        System.out.println("begin cancel in " + Thread.currentThread().getName());
         if (!(state == NEW && STATE.compareAndSet
-              (this, NEW, mayInterruptIfRunning ? INTERRUPTING : CANCELLED)))
+              (this, NEW, mayInterruptIfRunning ? INTERRUPTING : CANCELLED))) {
+            System.out.println("cann't cancel");
             return false;
+        }
         try {    // in case call to interrupt throws exception
             if (mayInterruptIfRunning) {
                 try {
                     Thread t = runner;
-                    if (t != null)
+                    if (t != null) {
                         t.interrupt();
+                        System.out.println("execute canel and thread interrupt " + t.getName());
+                    }
                 } finally { // final state
                     STATE.setRelease(this, INTERRUPTED);
                 }
@@ -226,7 +231,9 @@ public class FutureTask<V> implements RunnableFuture<V> {
      * @param v the value
      */
     protected void set(V v) {
+        System.out.println("begin set");
         if (STATE.compareAndSet(this, NEW, COMPLETING)) {
+            System.out.println("set success");
             outcome = v;
             STATE.setRelease(this, NORMAL); // final state
             finishCompletion();
@@ -253,15 +260,19 @@ public class FutureTask<V> implements RunnableFuture<V> {
 
     public void run() {
         if (state != NEW ||
-            !RUNNER.compareAndSet(this, null, Thread.currentThread()))
+            !RUNNER.compareAndSet(this, null, Thread.currentThread())) {
+            System.out.println("cann't run in " + Thread.currentThread().getName());
             return;
+        }
         try {
             Callable<V> c = callable;
             if (c != null && state == NEW) {
+                System.out.println("begin run in " + Thread.currentThread().getName());
                 V result;
                 boolean ran;
                 try {
                     result = c.call();
+                    System.out.println("c.call after in" + Thread.currentThread().getName());
                     ran = true;
                 } catch (Throwable ex) {
                     result = null;
@@ -359,6 +370,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
      * nulls out callable.
      */
     private void finishCompletion() {
+        System.out.println("begin finish state is " + this.state);
         // assert state > COMPLETING;
         for (WaitNode q; (q = waiters) != null;) {
             if (WAITERS.weakCompareAndSet(this, q, null)) {

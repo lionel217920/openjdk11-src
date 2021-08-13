@@ -879,10 +879,10 @@ public class PrintStream extends FilterOutputStream
      */
     public void println(String x) {
         synchronized (this) {
-            print("==== By Lionel ==== \n");
+            //print("==== By Lionel ==== \n");
             print(x);
             newLine();
-            print("==== By Lionel ==== \n");
+            //print("==== By Lionel ==== \n");
         }
     }
 
